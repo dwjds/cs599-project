@@ -2,11 +2,17 @@ from __future__ import annotations
 
 import asyncio
 import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+SRC_DIR = ROOT / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
 """
 兼容导出入口。
 
-原来所有实现都堆在这个文件里；现在已按职责拆到 `miniagent_core/`:
+原来所有实现都堆在这个文件里；现在已按职责拆到 `src/miniagent_core/`:
 - tools
 - memory
 - message

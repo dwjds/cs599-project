@@ -54,13 +54,7 @@ Use only these script paths with `run_skill_script(skill_name="docx", ...)`:
 - `scripts/office/validate.py`
 - `scripts/office/soffice.py`
 
-Do not call:
-
-- `scripts/create_docx.py`
-- `scripts/generate_docx.py`
-- `scripts/docx/create.py`
-- `scripts/docx/generate.py`
-- any `__pycache__`, schema, helper, or template file directly
+Do not call invented script paths, cached files, schemas, helpers, or templates directly.
 
 ## Common Workflows
 

@@ -57,7 +57,7 @@ Use only these script paths with `run_skill_script(skill_name="xlsx", ...)`:
 - `scripts/office/unpack.py`
 - `scripts/office/pack.py`
 
-Do not call sample files, cached files, or invented paths such as `scripts/create_xlsx.py`.
+Do not call sample files, cached files, or invented script paths.
 
 ## Common Workflows
 

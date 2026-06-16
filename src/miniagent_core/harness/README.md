@@ -27,7 +27,7 @@ Harness 不负责：
 ## Module Layout
 
 ```text
-miniagent_core/harness/
+src/miniagent_core/harness/
 ├── assembly.py          # AgentAssembly / RuntimeComponents
 ├── config.py            # HarnessConfig
 ├── context.py           # RuntimeContext
@@ -177,7 +177,7 @@ Trace 写入是 best-effort，trace 失败不会中断主流程。
 
 ## Runtime Gates
 
-Harness 通过 `TraceSink` 观察运行过程，真正的门禁逻辑由 `miniagent_core/app.py` 调用 `TurnIntent`、`RuntimeVerifier` 和 `RuntimeRecovery` 执行。
+Harness 通过 `TraceSink` 观察运行过程，真正的门禁逻辑由 `src/miniagent_core/app.py` 调用 `TurnIntent`、`RuntimeVerifier` 和 `RuntimeRecovery` 执行。
 
 当前 gate：
 
@@ -209,7 +209,7 @@ Replay 适合失败复盘、生成调试报告、沉淀 regression 样本。
 
 ## Evaluation
 
-Agent task evaluation 由 `miniagent_core/benchmark.py` 负责 task loading、judge 和 report，但执行路径走 Harness runtime：
+Agent task evaluation 由 `src/miniagent_core/benchmark.py` 负责 task loading、judge 和 report，但执行路径走 Harness runtime：
 
 ```text
 run_benchmark()

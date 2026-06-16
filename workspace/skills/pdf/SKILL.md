@@ -51,7 +51,7 @@ Use only these script paths with `run_skill_script(skill_name="pdf", ...)`:
 - `scripts/fill_fillable_fields.py`
 - `scripts/fill_pdf_form_with_annotations.py`
 
-Do not call sample files, cached files, or invented paths such as `scripts/generate_pdf.py`.
+Do not call sample files, cached files, or invented script paths.
 
 ## Common Workflows
 

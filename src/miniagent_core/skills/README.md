@@ -14,7 +14,7 @@ Skill 系统把通用 Agent 扩展成项目级任务 Agent。它负责扫描 `wo
 ## Module Layout
 
 ```text
-miniagent_core/skills/
+src/miniagent_core/skills/
 ├── actions.py       # 读取 actions.json，生成 SkillActionPlan
 ├── doctor.py        # skill health check
 ├── loader.py        # SkillLoader facade

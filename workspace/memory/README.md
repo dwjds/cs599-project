@@ -79,7 +79,7 @@ session key 示例：
 
 ## Consolidation
 
-相关配置在 `miniagent_core/config.py`：
+相关配置在 `src/miniagent_core/config.py`：
 
 ```python
 MEMORY_CONSOLIDATE_TRIGGER = 30

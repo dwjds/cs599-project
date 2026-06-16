@@ -11,12 +11,15 @@ except ImportError:  # pragma: no cover
     OpenAI = None  # type: ignore[assignment]
 
 API_KEY = os.environ.get("DASHSCOPE_API_KEY")
-BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-MODEL = "qwen-plus-2025-09-11"
+BASE_URL = os.environ.get(
+    "DASHSCOPE_BASE_URL",
+    "https://dashscope.aliyuncs.com/compatible-mode/v1",
+)
+MODEL = os.environ.get("DASHSCOPE_MODEL", "qwen-plus-2025-09-11")
 EMBEDDING_MODEL = os.environ.get("DASHSCOPE_EMBEDDING_MODEL", "text-embedding-v4")
-BASE_DIR = Path(__file__).resolve().parent.parent
-PROJECT_ROOT = BASE_DIR
-WORKSPACE = BASE_DIR / "workspace"
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+BASE_DIR = PROJECT_ROOT
+WORKSPACE = PROJECT_ROOT / "workspace"
 PREFERRED_PYTHON = "3.11.15"
 REQUIRED_PYTHON_SERIES = (3, 11)
 PREFERRED_PYTHON_EXECUTABLE = Path(r"D:\conda\envs\assistant\python.exe")
