@@ -50,9 +50,3 @@
 - [x] `python miniagent.py skills doctor`：`ERROR=0`。
 - [ ] 运行完整 isolated benchmark。
 
-## 演示
-
-- [x] 已准备 5 分钟 Demo 脚本。
-- [ ] 准备稳定演示输入文件。
-- [ ] 录制完整 Demo 视频作为 API 故障保底。
-- [ ] 演练 3 分钟答辩。

@@ -105,6 +105,48 @@ sequenceDiagram
     B->>C: reply user
 ```
 
+## Data Flow
+
+```mermaid
+flowchart TD
+    UserInput["Input Data<br/>QQ text / CLI text / uploaded files<br/>user_id / session_id / recent history"]
+
+    UserInput --> Inbound["InboundMessage<br/>normalized channel payload"]
+    Inbound --> SessionHistory["Session History<br/>workspace/sessions/*.jsonl"]
+    Inbound --> Intent["TurnIntent<br/>file grounding / output file / script need"]
+    Inbound --> VisibleFiles["Visible Attachments<br/>workspace/inbox/*"]
+
+    SessionHistory --> RuntimeContext["Runtime Context<br/>messages + relevant memory + skill notes + visible files"]
+    Intent --> RuntimeContext
+    VisibleFiles --> RuntimeContext
+    MemoryResult["Memory Retrieval Result<br/>retrieved facts / preferences / workflow memory"] --> RuntimeContext
+    SelectedSkills["Selected Skills<br/>matched SKILL.md + actions.json plan"] --> RuntimeContext
+    ToolDefs["Tool Definitions<br/>ToolRegistry schemas / run_skill_script"] --> RuntimeContext
+
+    RuntimeContext --> LLMRequest["LLM Messages<br/>system + history + user + tool schemas"]
+    RuntimeContext --> DeterministicAction["Deterministic Action<br/>planned script/tool execution"]
+
+    LLMRequest --> ToolCall["Execution Data<br/>tool_call / script arguments / tool_choice"]
+    DeterministicAction --> ToolCall
+    ToolCall --> ToolResult["Tool Result<br/>stdout / stderr / return code / extracted text"]
+    ToolResult --> Evidence["Runtime Evidence<br/>file evidence / output artifact / file_created"]
+    ToolResult --> Violations["Runtime Control Data<br/>violation / recovery_plan / retry state"]
+
+    Evidence --> FinalReply["Output Data<br/>QQ reply / CLI reply / saved outbox file / trusted error"]
+    Violations --> FinalReply
+    FinalReply --> Outbox["Output Files<br/>workspace/outbox/*"]
+
+    Inbound --> Trace["Trace / Reports<br/>runtime_trace.jsonl / replay / benchmark report"]
+    Intent --> Trace
+    MemoryResult --> Trace
+    SelectedSkills --> Trace
+    ToolCall --> Trace
+    ToolResult --> Trace
+    Evidence --> Trace
+    Violations --> Trace
+    FinalReply --> Trace
+```
+
 ## Key Design Points
 
 - **Channel 解耦**：CLI 和 QQBot 都转换成统一消息对象，核心 runtime 不绑定具体渠道。

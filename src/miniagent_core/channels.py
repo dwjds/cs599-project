@@ -475,11 +475,7 @@ class QQChannel(BaseChannel):
         preview = content or f"[{len(attachments)} attachment(s)]"
         print(f"[QQ] Inbound message <- {openid}: {preview}")
 
-        """
-        投递到主事件循环，后续会在 MessageBus 里被 Agent 消费。 
-        因为 _handle_c2c_message() 当前运行在 botpy 线程的 event loop 里，但 Mini Agent 的 MessageBus 在主 event loop 里。
-        所以不能直接 await self.handle_message(...)，要通过 _publish_inbound_to_main_loop() 投递回主 loop。
-        """
+       
         await self._publish_inbound_to_main_loop(
             sender_id=openid,
             chat_id=chat_id,
