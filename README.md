@@ -21,7 +21,7 @@ MiniAgent 是一个面向真实文件任务的可验证 Agent Runtime 与 Harnes
 | Memory | Session JSONL / Structured Memory Store / Embedding Retrieval |
 | Channel | CLI / QQBot WebSocket |
 | Documents | pypdf / pdfplumber / python-docx / openpyxl / reportlab |
-| Engineering | Runtime Verifier / Recovery / Trace / Benchmark / Replay / Regression |
+| Harness Engineering | Runtime Verifier / Recovery / Trace / Benchmark / Replay / Regression |
 | AI-assisted Development | VS Code / Codex |
 
 当前版本的重点不是“让模型自由聊天”，而是把 Agent 放进一个可观测、可约束、可复现的工程运行层里：
@@ -52,25 +52,84 @@ MiniAgent 是一个面向真实文件任务的可验证 Agent Runtime 与 Harnes
 
 ```text
 cs599-project/
-├── docs/                         # 课程文档、Specs、评测、报告 PDF
+├── docs/                                # 课程文档、Specs、评测与最终报告
 │   ├── CS599_大作业报告.pdf
-│   └── architecture.md
-├── src/                          # 项目源代码
+│   ├── README.md
+│   ├── SUBMISSION_CHECKLIST.md
+│   ├── architecture.md
+│   ├── evaluation.md
+│   └── specs/
+│       ├── product-spec.md
+│       ├── architecture-spec.md
+│       └── api-spec.md
+├── src/                                 # 项目源代码
+│   ├── README.md
 │   └── miniagent_core/
-│       ├── app.py                # Agent loop、runtime gate、channel 处理
-│       ├── benchmark.py          # benchmark suites 与 report
-│       ├── intent.py             # TurnIntent 推断
-│       ├── memory.py             # session、长期记忆、检索、consolidation
-│       ├── runtime_verifier.py   # 最终回复事实校验
-│       ├── runtime_recovery.py   # 按错误类型重试/失败恢复
-│       ├── tools/                # 基础工具与 run_skill_script
-│       ├── skills/               # skill 扫描、路由、action planner、runtime
-│       └── harness/              # 工程级 runtime/eval/trace/replay/regression
-├── miniagent.py                  # 兼容启动器，默认入口
-├── workspace/                    # 运行态数据、skills、benchmarks、trace
-├── README.md                     # 项目入口
+│       ├── __init__.py
+│       ├── app.py                       # Agent loop、runtime gate、channel 处理
+│       ├── async_compat.py
+│       ├── attachments.py               # inbox/outbox 与文件读写
+│       ├── benchmark.py                 # benchmark suites、judge、report
+│       ├── channels.py                  # CLI / QQ Channel
+│       ├── config.py                    # 主配置
+│       ├── intent.py                    # TurnIntent 推断
+│       ├── memory.py                    # session、长期记忆、检索、consolidation
+│       ├── message.py                   # Inbound / Outbound / MessageBus
+│       ├── runtime_guards.py
+│       ├── runtime_recovery.py          # 按错误类型重试/失败恢复
+│       ├── runtime_verifier.py          # 最终回复事实校验
+│       ├── harness/                     # 工程级 runtime/eval/trace/replay/regression
+│       │   ├── __init__.py
+│       │   ├── README.md
+│       │   ├── assembly.py
+│       │   ├── config.py
+│       │   ├── context.py
+│       │   ├── regression.py
+│       │   ├── replay.py
+│       │   ├── runtime.py
+│       │   ├── runtime_session.py
+│       │   └── trace.py
+│       ├── skills/                      # skill 扫描、路由、action planner、runtime
+│       │   ├── __init__.py
+│       │   ├── README.md
+│       │   ├── actions.py
+│       │   ├── doctor.py
+│       │   ├── loader.py
+│       │   ├── policy.py
+│       │   ├── registry.py
+│       │   ├── router.py
+│       │   ├── runtime.py
+│       │   └── scanner.py
+│       └── tools/                       # 基础工具与 run_skill_script
+│           ├── __init__.py
+│           ├── attachments.py
+│           ├── base.py
+│           ├── browser.py
+│           ├── files.py
+│           ├── registry.py
+│           ├── skills.py
+│           └── web.py
+├── workspace/                           # 运行态数据、skills、benchmarks、trace
+│   ├── AGENTS.md
+│   ├── SOUL.md
+│   ├── USER.md
+│   ├── benchmarks/
+│   ├── inbox/
+│   ├── memory/
+│   ├── outbox/
+│   ├── sessions/
+│   ├── skills/
+│   └── traces/
+├── .env.example                         # 环境变量模板
 ├── .gitignore
-└── LICENSE
+├── ARCHITECTURE.md                      # 系统架构图、时序图、数据流图
+├── COMMANDS.md                          # 常用命令速查
+├── LICENSE
+├── PROJECT_QA.md                        # 开发过程中遇到的问题汇总
+├── README.md                            
+├── miniagent.py                         # 兼容启动器，默认入口
+├── requirements.txt                     # Python 依赖
+└── smoke_test.py                        # 简单启动/冒烟测试
 ```
 
 其中 `workspace/` 是项目运行和评测所需的状态目录，不属于“源码主体”，所以核心实现集中在 `src/` 下。
